@@ -19,10 +19,10 @@ class ChatModel: ObservableObject, Identifiable, Codable {
     //customize the location of the openai_proxy.php script
     //source code for openai_proxy.php available here: https://github.com/adamlyttleapps/OpenAI-Proxy-PHP
     
-    private let location = "https://adamlyttleapps.com/demo/OpenAIProxy-PHP/openai_proxy.php"
+    private let location = "https://antique-worker.jkersh123.workers.dev"
     
     //create a shared secret key, requests to the server use an md5 hash with the shared secret
-    private let sharedSecretKey = "secret_key"
+    private let sharedSecretKey = ""
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -74,47 +74,55 @@ class ChatModel: ObservableObject, Identifiable, Codable {
         
     
     func sendMessage(role: MessageRole = .user, message: String? = nil, image: UIImage? = nil) {
-        
         appendMessage(role: role, message: message, image: image)
         self.isSending = true
-        
-        let parameters: [String: String] = [
-            "messages": self.messageData!,
-            "hash": "\(self.messageData!)\(sharedSecretKey)".hash()
-        ]
-        
-        let connectionRequest = ConnectionRequest()
-        connectionRequest.fetchData(location, parameters: parameters) { [weak self] data,error in
-            
-            if let self = self {
-                
-                if let error = error, !error.isEmpty {
-                    print("ERROR")
-                }
-                else if let data = data {
-                    print("received data = \(data)")
-                    if let message = String(data: data, encoding: .utf8) {
-                        
-                        DispatchQueue.main.async {
-                            self.appendMessage(role: .system, message: message)
-                            self.isSending = false
-                        }
-                    }
-                }
 
-                if self.isSending {
-                    DispatchQueue.main.async {
-                        self.isSending = false
-                    }
-                }
-
+        // Prepare the payload
+        let outgoingMessages = messages.map { message -> [String: Any] in
+            var dict: [String: Any] = [
+                "role": message.role.rawValue
+            ]
+            if let msg = message.message {
+                dict["message"] = msg
             }
-            
+            if let img = message.image,
+               let base64 = img.resized(toHeight: 1000)?.jpegData(compressionQuality: 0.4)?.base64EncodedString() {
+                dict["image"] = base64
+            }
+            return dict
         }
-        
-        
-        
+
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: ["messages": outgoingMessages]) else {
+            print("Failed to encode JSON.")
+            self.isSending = false
+            return
+        }
+
+        var request = URLRequest(url: URL(string: location)!)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = jsonData
+
+        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+            DispatchQueue.main.async {
+                guard let self = self else { return }
+                self.isSending = false
+
+                if let error = error {
+                    print("Request error: \(error)")
+                    return
+                }
+
+                guard let data = data, let reply = String(data: data, encoding: .utf8) else {
+                    print("Failed to decode response.")
+                    return
+                }
+
+                self.appendMessage(role: .system, message: reply)
+            }
+        }.resume()
     }
+
     
     func appendMessage(role: MessageRole, message: String? = nil, image: UIImage? = nil) {
         self.date = Date()
@@ -172,9 +180,10 @@ struct ChatMessage: Identifiable, Codable {
         if let image = self.image,
            let resizedImage = self.resizedImage(image),
            let resizedImageData = resizedImage.jpegData(compressionQuality: 0.4) {
-            let imageData = self.encodeToPercentEncodedString(resizedImageData)
-            try container.encode(imageData, forKey: .image)
+            let base64String = resizedImageData.base64EncodedString()
+            try container.encode(base64String, forKey: .image)
         }
+
         
     }
 
