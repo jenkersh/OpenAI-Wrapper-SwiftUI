@@ -57,6 +57,8 @@ struct ChatView: View {
                                 DispatchQueue.global().async {
                                     let history = History()
                                     history.appendChat(chat)
+                                    // ✅ Save the chat to disk for HomeView
+                                    ChatStorage.shared.saveChat(chat)
                                 }
                             }
                         }

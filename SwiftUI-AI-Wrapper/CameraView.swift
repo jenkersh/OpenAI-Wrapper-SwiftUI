@@ -369,3 +369,6 @@ class PhotoCaptureDelegate: NSObject, AVCapturePhotoCaptureDelegate {
         }
     }
 }
+
+
+

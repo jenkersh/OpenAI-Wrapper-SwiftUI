@@ -25,6 +25,9 @@
 		318DAF652C3BA5FA00619995 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318DAF642C3BA5FA00619995 /* DateExtensions.swift */; };
 		318DAF672C3BA62900619995 /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318DAF662C3BA62900619995 /* PhotoPicker.swift */; };
 		318DAF6B2C3CDE0100619995 /* StringHash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318DAF6A2C3CDE0100619995 /* StringHash.swift */; };
+		669582042E1AE649002F3899 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669582032E1AE646002F3899 /* HomeView.swift */; };
+		669582072E1AE6A8002F3899 /* ChatStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669582062E1AE6A2002F3899 /* ChatStorage.swift */; };
+		669582262E1AE9A7002F3899 /* AppEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669582252E1AE9A1002F3899 /* AppEntryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +50,9 @@
 		318DAF642C3BA5FA00619995 /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 		318DAF662C3BA62900619995 /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		318DAF6A2C3CDE0100619995 /* StringHash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringHash.swift; sourceTree = "<group>"; };
+		669582032E1AE646002F3899 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		669582062E1AE6A2002F3899 /* ChatStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatStorage.swift; sourceTree = "<group>"; };
+		669582252E1AE9A1002F3899 /* AppEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEntryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +85,8 @@
 		318DAF3B2C3BA1E900619995 /* SwiftUI-AI-Wrapper */ = {
 			isa = PBXGroup;
 			children = (
+				669582252E1AE9A1002F3899 /* AppEntryView.swift */,
+				669582032E1AE646002F3899 /* HomeView.swift */,
 				318DAF3C2C3BA1E900619995 /* SwiftUI_AI_WrapperApp.swift */,
 				318DAF3E2C3BA1E900619995 /* ContentView.swift */,
 				318DAF502C3BA2DE00619995 /* HistoryView.swift */,
@@ -115,6 +123,7 @@
 		318DAF5B2C3BA3FD00619995 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				669582062E1AE6A2002F3899 /* ChatStorage.swift */,
 				318DAF592C3BA3F400619995 /* UIImageExtensions.swift */,
 				318DAF642C3BA5FA00619995 /* DateExtensions.swift */,
 				318DAF6A2C3CDE0100619995 /* StringHash.swift */,
@@ -208,8 +217,10 @@
 				318DAF512C3BA2DE00619995 /* HistoryView.swift in Sources */,
 				318DAF4B2C3BA22400619995 /* CameraView.swift in Sources */,
 				318DAF5F2C3BA44000619995 /* TypingIndicatorView.swift in Sources */,
+				669582042E1AE649002F3899 /* HomeView.swift in Sources */,
 				318DAF562C3BA31F00619995 /* ChatModel.swift in Sources */,
 				318DAF6B2C3CDE0100619995 /* StringHash.swift in Sources */,
+				669582262E1AE9A7002F3899 /* AppEntryView.swift in Sources */,
 				318DAF612C3BA56A00619995 /* InputMessageView.swift in Sources */,
 				318DAF652C3BA5FA00619995 /* DateExtensions.swift in Sources */,
 				318DAF672C3BA62900619995 /* PhotoPicker.swift in Sources */,
@@ -219,6 +230,7 @@
 				318DAF542C3BA2F800619995 /* HistoryModel.swift in Sources */,
 				318DAF5A2C3BA3F400619995 /* UIImageExtensions.swift in Sources */,
 				318DAF4F2C3BA2C200619995 /* MessageView.swift in Sources */,
+				669582072E1AE6A8002F3899 /* ChatStorage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
