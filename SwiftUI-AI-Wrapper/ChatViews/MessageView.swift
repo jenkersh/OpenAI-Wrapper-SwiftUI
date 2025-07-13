@@ -40,30 +40,32 @@ struct MessageView: View {
                         }
                     }
                     if let message = message.message {
-                        if message == "..." && self.message.role == .system {
-                            TypingIndicatorView()
-                                .padding()
-                                .foregroundColor(.white)
-                                .background(colorScheme == .dark ? Color(.systemGray5) : Color(.systemGray6))
-                        }
-                        else {
+                        if let jsonData = message.data(using: .utf8),
+                           let antiqueInfo = try? JSONDecoder().decode(AntiqueInfo.self, from: jsonData) {
                             
-                            VStack (alignment: .leading, spacing: 10) {
-                                
-                                HStack {
-                                    Text(removeMessageResponses(message))
-                                    if message.contains("? location:") {
-                                        Spacer()
-                                        Image(systemName: "location.viewfinder")
-                                    }
+                            VStack(spacing: 16) {
+                                if antiqueInfo.title == "No antique detected" {
+                                    InfoCard(heading: "No Antique Detected", content: antiqueInfo.description)
+                                        .foregroundColor(.red)
+                                } else {
+                                    InfoCard(heading: "Title", content: antiqueInfo.title)
+                                    InfoCard(heading: "Description", content: antiqueInfo.description)
+                                    InfoCard(heading: "Year of Origin", content: antiqueInfo.year_of_origin)
+                                    InfoCard(heading: "Valuation", content: antiqueInfo.valuation)
                                 }
-                                
-                                
                             }
-                            .padding()
-                            .background(colorScheme == .dark ? Color(.systemGray5) : Color(.systemGray6))
+                            .padding(.top)
+                            
+                        } else {
+                            // Fallback in case parsing fails
+                            Text(removeMessageResponses(message))
+                                .padding()
+                                .background(colorScheme == .dark ? Color(.systemGray5) : Color(.systemGray6))
+                                .cornerRadius(12)
                         }
                     }
+
+
                 }
                 .contextMenu {
                     Button(action: {
@@ -147,3 +149,12 @@ struct MessageView: View {
     
     
 }
+
+struct AntiqueInfo: Codable {
+    let title: String
+    let description: String
+    let year_of_origin: String
+    let valuation: String
+}
+
+
